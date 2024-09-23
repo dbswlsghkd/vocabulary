@@ -1,10 +1,25 @@
 import World from './World';
 
+const showName = () => {
+    console.log('Mike');
+};
+
+const showAge = (age) => {
+    console.log(age);
+};
+
 const Hello = () => {
     return (
         <div>
             <h1>Hello</h1>
-            <World></World>
+            <button onClick={showName}>Show name</button>
+            <button
+                onClick={() => {
+                    showAge(10);
+                }}
+            >
+                Show age
+            </button>
         </div>
     );
 };
