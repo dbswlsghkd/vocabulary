@@ -15,6 +15,10 @@
     {
       "day": 4,
       "id": "4"
+    },
+    {
+      "id": "e566",
+      "day": 5
     }
   ],
   "words": [
@@ -23,7 +27,7 @@
       "day": 1,
       "eng": "book",
       "kor": "책",
-      "isDone": true
+      "isDone": false
     },
     {
       "id": "3",
@@ -87,6 +91,27 @@
       "kor": "사과",
       "isDone": false,
       "id": "12"
+    },
+    {
+      "id": "e164",
+      "day": "1",
+      "eng": "home",
+      "kor": "집",
+      "isDone": false
+    },
+    {
+      "id": "33bc",
+      "day": "3",
+      "eng": "mouse",
+      "kor": "마우스",
+      "isDone": false
+    },
+    {
+      "id": "08c5",
+      "day": "5",
+      "eng": "tree",
+      "kor": "나무",
+      "isDone": false
     }
   ]
 }
