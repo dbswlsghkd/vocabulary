@@ -112,6 +112,13 @@
       "eng": "tree",
       "kor": "나무",
       "isDone": false
+    },
+    {
+      "id": "a9ae",
+      "day": "1",
+      "eng": "milk",
+      "kor": "우유",
+      "isDone": false
     }
   ]
 }
