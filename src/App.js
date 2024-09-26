@@ -4,6 +4,7 @@ import Header from './component/Header';
 import Day from './component/Day';
 import CreateWord from './component/CreateWord';
 import CreateDay from './component/CreateDay';
+import UpdateWord from './component/UpdateWord';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import EmptyPage from './component/EmptyPage';
 
@@ -23,6 +24,10 @@ function App() {
                     <Route
                         path="/create_day"
                         element={<CreateDay></CreateDay>}
+                    ></Route>
+                    <Route
+                        path="/update_word/:id"
+                        element={<UpdateWord></UpdateWord>}
                     ></Route>
                 </Routes>
             </div>

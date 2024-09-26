@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { Link } from 'react-router-dom';
 export default function Word({ word: w }) {
     const [isShow, setIsShow] = useState(false);
     const [isDone, setIsDone] = useState(w.isDone);
@@ -40,6 +40,25 @@ export default function Word({ word: w }) {
         }
     };
 
+    const update = () => {
+        // setIsDone(!isDone);
+        fetch(`http://localhost:3001/words/${word.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                ...word,
+                isDone: !isDone,
+            }),
+        }).then((res) => {
+            console.log(res, 'res');
+            if (res.ok) {
+                setIsDone(!isDone);
+            }
+        });
+    };
+
     if (word.id === 0) {
         return null;
     }
@@ -59,6 +78,9 @@ export default function Word({ word: w }) {
                 <button onClick={toggleShow}>
                     뜻 {isShow ? '숨기기' : '보기'}
                 </button>
+                <Link to={`/update_word/${word.id}`} className="btn_upd">
+                    수정
+                </Link>
                 <button onClick={del} className="btn_del">
                     삭제
                 </button>
