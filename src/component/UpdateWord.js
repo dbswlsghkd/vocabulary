@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 
@@ -6,14 +6,24 @@ export default function UpdateWord() {
     const days = useFetch('http://localhost:3001/days');
     const wordID = useParams().id;
     const words = useFetch(`http://localhost:3001/words/${wordID}`);
-    console.log(words);
+    // console.log(words);
 
-    const [ueng, setEng] = useState(null);
+    const [ueng, setEng] = useState(words.eng || '');
+    const [ukor, setKor] = useState(words.kor || '');
+    const [uday, setDay] = useState(words.day || '');
 
-    const [ukor, setKor] = useState(null);
-    // const [uday, setDay] = useState(words.eng);
+    //dom에 접근이 가능함
+    const engRef = useRef(null);
+    const korRef = useRef(null);
+    const dayRef = useRef(null);
 
-    // const [topics, setTopics] = useState([words]);
+    useEffect(() => {
+        if (words) {
+            setEng(words.eng || '');
+            setKor(words.kor || '');
+            setDay(words.day || '');
+        }
+    }, [words]);
 
     const history = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +44,7 @@ export default function UpdateWord() {
                     kor: korRef.current.value,
                 }),
             }).then((res) => {
-                console.log(res, 'res');
+                // console.log(res, 'res');
                 if (res.ok) {
                     alert('수정이 완료 되었습니다.');
                     history(`/day/${dayRef.current.value}`);
@@ -43,10 +53,6 @@ export default function UpdateWord() {
             });
         }
     };
-    //dom에 접근이 가능함
-    const engRef = useRef(null);
-    const korRef = useRef(null);
-    const dayRef = useRef(null);
 
     return (
         <form onSubmit={onSubmit}>
@@ -56,9 +62,8 @@ export default function UpdateWord() {
                     type="text"
                     placeholder="computer"
                     ref={engRef}
-                    value={words.eng}
+                    value={ueng}
                     onChange={(event) => {
-                        // setTitle(event.target.value);
                         setEng(event.target.value);
                     }}
                 ></input>
@@ -69,16 +74,21 @@ export default function UpdateWord() {
                     type="text"
                     placeholder="컴퓨터"
                     ref={korRef}
-                    value={words.kor}
+                    value={ukor}
                     onChange={(event) => {
-                        // setTitle(event.target.value);
                         setKor(event.target.value);
                     }}
                 ></input>
             </div>
             <div className="input_area">
                 <label>Day</label>
-                <select value={words.day}>
+                <select
+                    value={uday}
+                    onChange={(event) => {
+                        setDay(event.target.value);
+                    }}
+                    ref={dayRef}
+                >
                     {days.map((day) => (
                         <option key={day.id} valuse={day.day}>
                             {day.day}
