@@ -8,9 +8,9 @@ export default function UpdateWord() {
     const words = useFetch(`http://localhost:3001/words/${wordID}`);
     // console.log(words);
 
-    const [ueng, setEng] = useState(words.eng || '');
-    const [ukor, setKor] = useState(words.kor || '');
-    const [uday, setDay] = useState(words.day || '');
+    const [ueng, setEng] = useState('');
+    const [ukor, setKor] = useState('');
+    const [uday, setDay] = useState('');
 
     //dom에 접근이 가능함
     const engRef = useRef(null);
@@ -25,7 +25,7 @@ export default function UpdateWord() {
         }
     }, [words]);
 
-    const history = useNavigate();
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = (e) => {
@@ -39,18 +39,26 @@ export default function UpdateWord() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    day: dayRef.current.value,
-                    eng: engRef.current.value,
-                    kor: korRef.current.value,
+                    day: uday,
+                    eng: ueng,
+                    kor: ukor,
                 }),
-            }).then((res) => {
-                // console.log(res, 'res');
-                if (res.ok) {
-                    alert('수정이 완료 되었습니다.');
-                    history(`/day/${dayRef.current.value}`);
+            })
+                .then((res) => {
+                    // console.log(res, 'res');
+                    if (res.ok) {
+                        alert('수정이 완료 되었습니다.');
+                        navigate(`/day/${uday}`);
+                    } else {
+                        alert('수정에 실패했습니다.');
+                    }
+                })
+                .catch(() => {
+                    alert('네트워크 오류가 발생했습니다.');
+                })
+                .finally(() => {
                     setIsLoading(false);
-                }
-            });
+                });
         }
     };
 
@@ -90,13 +98,13 @@ export default function UpdateWord() {
                     ref={dayRef}
                 >
                     {days.map((day) => (
-                        <option key={day.id} valuse={day.day}>
+                        <option key={day.id} value={day.day}>
                             {day.day}
                         </option>
                     ))}
                 </select>
             </div>
-            <button style={{ opacity: isLoading ? 0.3 : 1 }}>
+            <button disabled={isLoading}>
                 {isLoading ? 'Saving...' : '저장'}
             </button>
         </form>
